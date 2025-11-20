@@ -21,6 +21,14 @@ export const ASSETS = {
     "https://i.postimg.cc/9QfW3mnb/12.jpg",
     "https://i.postimg.cc/qR2rczNr/13.jpg",
     "https://i.postimg.cc/yx7MFnqR/14.jpg"
+  ],
+  MODULE_IMAGES: [
+    "https://i.postimg.cc/RFHDz4XY/mentor2.webp",
+    "https://i.postimg.cc/tJbPqZKL/Anderson.png",
+    "https://i.postimg.cc/C5ddKrnc/headline.webp",
+    "https://i.postimg.cc/MKnvJGBV/pc.png",
+    "https://i.postimg.cc/RFHDz4XY/mentor2.webp",
+    "https://i.postimg.cc/tJbPqZKL/Anderson.png"
   ]
 };
 

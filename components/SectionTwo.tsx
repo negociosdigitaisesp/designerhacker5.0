@@ -1,8 +1,9 @@
 
-import React, { forwardRef, useRef, useState, useLayoutEffect } from 'react';
+
+import React, { forwardRef, useRef, useState, useLayoutEffect, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { Rocket, Star, Pencil, CheckCircle, Star as StarIcon, Paintbrush, DollarSign, Check, Brain, CheckCheck, Users, Flame } from 'lucide-react';
+import { Rocket, Star, Pencil, CheckCircle, Star as StarIcon, Paintbrush, DollarSign, Check, Brain, CheckCheck, Users, Flame, Ticket, PlayCircle, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ASSETS } from '../constants';
 
 interface SectionTwoProps {
@@ -566,6 +567,51 @@ export const SectionTwo = forwardRef<HTMLDivElement, SectionTwoProps>(({ isActiv
              </div>
         </div>
 
+        {/* ==========================================
+            SECTION 7: PROGRAM CONTENT (CAROUSEL)
+           ========================================== */}
+        <div className="relative w-full py-20 md:py-32 px-4 bg-[#0A0A0A] overflow-hidden border-t border-white/5">
+             <div className="relative z-10 max-w-[1600px] mx-auto flex flex-col items-center">
+                 
+                 {/* Headline */}
+                 <h2 className="text-center text-[clamp(32px,5vw,56px)] leading-[1.3] mb-16 font-sans font-bold">
+                     <span className="text-white">O QUE VOCÊ VAI </span>
+                     <span className="bg-gradient-to-r from-[#00CBD9] to-[#AEECF1] bg-clip-text text-transparent">APRENDER</span>
+                 </h2>
+
+                 {/* 3D Carousel */}
+                 <ProgramCarousel />
+
+                 {/* Stats Row */}
+                 <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12 mt-12 md:mt-16">
+                     <div className="flex items-center gap-3">
+                         <Ticket className="w-7 h-7 text-[#FC2C54]" />
+                         <span className="text-white font-semibold text-lg md:text-xl">+ 10 Cursos em 1</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                         <PlayCircle className="w-7 h-7 text-[#FC2C54]" />
+                         <span className="text-white font-semibold text-lg md:text-xl">+ 50 Aulas</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                         <Clock className="w-7 h-7 text-[#FC2C54]" />
+                         <span className="text-white font-semibold text-lg md:text-xl">+ 100 Horas</span>
+                     </div>
+                 </div>
+
+                 {/* CTA Button */}
+                 <div className="mt-12">
+                     <button className="group relative overflow-hidden bg-gradient-to-br from-[#00CBD9] to-[#AEECF1] text-white font-bold text-[clamp(16px,1.8vw,18px)] px-12 py-5 rounded-2xl border-2 border-[#00CBD9]/50 shadow-[0_0_40px_rgba(0,203,217,0.4)] hover:scale-105 hover:shadow-[0_0_60px_rgba(0,203,217,0.7)] transition-all duration-300 uppercase tracking-wider font-sans">
+                         <div className="absolute inset-x-0 bottom-0 h-[2px] bg-white/50"></div> {/* Reflection */}
+                         <div className="absolute inset-0 bg-shimmer w-[200%] animate-shimmer-sweep"></div>
+                         <span className="relative z-10 flex items-center justify-center gap-3 text-white">
+                            <Rocket className="w-6 h-6 text-white" /> QUERO SUBIR DE NÍVEL AGORA
+                         </span>
+                     </button>
+                 </div>
+
+             </div>
+        </div>
+
       </div>
       
       {/* Specific Styles for Brand Logo Hover (Scoped) */}
@@ -580,6 +626,131 @@ export const SectionTwo = forwardRef<HTMLDivElement, SectionTwoProps>(({ isActiv
   );
 });
 
+// Helper Component: Program Carousel (3D)
+const ProgramCarousel = () => {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const totalSlides = ASSETS.MODULE_IMAGES.length;
+    const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+    const touchStartX = useRef(0);
+
+    // Auto-play logic
+    const startAutoPlay = () => {
+        stopAutoPlay();
+        intervalRef.current = setInterval(() => {
+            nextSlide();
+        }, 3000);
+    };
+
+    const stopAutoPlay = () => {
+        if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+
+    useEffect(() => {
+        startAutoPlay();
+        return () => stopAutoPlay();
+    }, [activeIndex]);
+
+    const nextSlide = () => {
+        setActiveIndex((prev) => (prev + 1) % totalSlides);
+    };
+
+    const prevSlide = () => {
+        setActiveIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
+    };
+
+    // Touch Handlers
+    const handleTouchStart = (e: React.TouchEvent) => {
+        touchStartX.current = e.touches[0].clientX;
+        stopAutoPlay();
+    };
+
+    const handleTouchEnd = (e: React.TouchEvent) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchStartX.current - touchEndX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) nextSlide();
+            else prevSlide();
+        }
+        startAutoPlay();
+    };
+
+    return (
+        <div 
+            className="relative w-full h-[400px] md:h-[600px] perspective-[1000px] flex items-center justify-center"
+            onMouseEnter={stopAutoPlay}
+            onMouseLeave={startAutoPlay}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+        >
+            {/* Controls */}
+            <button onClick={prevSlide} className="absolute left-4 md:left-10 z-20 p-3 rounded-full bg-[#00CBD9]/10 border border-[#00CBD9]/40 hover:bg-[#00CBD9]/30 transition-all backdrop-blur-sm">
+                <ChevronLeft className="w-6 h-6 text-[#00CBD9]" />
+            </button>
+            <button onClick={nextSlide} className="absolute right-4 md:right-10 z-20 p-3 rounded-full bg-[#00CBD9]/10 border border-[#00CBD9]/40 hover:bg-[#00CBD9]/30 transition-all backdrop-blur-sm">
+                <ChevronRight className="w-6 h-6 text-[#00CBD9]" />
+            </button>
+
+            {/* Cards */}
+            <div className="relative w-full h-full flex items-center justify-center transform-style-3d">
+                {ASSETS.MODULE_IMAGES.map((img, i) => {
+                    // Calculate distance from active index with wrapping
+                    let distance = i - activeIndex;
+                    if (distance > totalSlides / 2) distance -= totalSlides;
+                    if (distance < -totalSlides / 2) distance += totalSlides;
+                    
+                    const isActive = i === activeIndex;
+                    const isVisible = Math.abs(distance) <= 2; // Show only 2 neighbors
+                    
+                    if (!isVisible) return null;
+
+                    return (
+                        <div
+                            key={i}
+                            className="absolute transition-all duration-500 ease-out"
+                            style={{
+                                width: isActive ? '300px' : '240px', // Mobile Base
+                                height: isActive ? '380px' : '300px',
+                                zIndex: 10 - Math.abs(distance),
+                                opacity: Math.max(0, 1 - Math.abs(distance) * 0.3),
+                                transform: `
+                                    translateX(${distance * (window.innerWidth < 768 ? 180 : 320)}px) 
+                                    scale(${1 - Math.abs(distance) * 0.15}) 
+                                    translateZ(${-Math.abs(distance) * 100}px)
+                                `,
+                                filter: isActive ? 'none' : 'brightness(0.5) blur(2px)',
+                            }}
+                        >
+                            <div className={`w-full h-full rounded-2xl overflow-hidden border-2 ${isActive ? 'border-[#00CBD9] shadow-[0_0_30px_rgba(0,203,217,0.3)]' : 'border-white/10'} bg-[#141414]`}>
+                                <img src={img} alt={`Module ${i+1}`} className="w-full h-full object-cover" />
+                                {isActive && (
+                                    <div className="absolute bottom-4 right-4 p-2 bg-[#00CBD9]/20 backdrop-blur-md rounded-full border border-[#00CBD9]/50">
+                                        <div className="w-6 h-6 flex items-center justify-center bg-cyan-light rounded-full">
+                                             <span className="text-[#00CBD9] font-bold text-lg leading-none mb-0.5">+</span>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+
+             {/* Dots */}
+             <div className="absolute -bottom-12 flex gap-3">
+                {ASSETS.MODULE_IMAGES.map((_, i) => (
+                    <button
+                        key={i}
+                        onClick={() => setActiveIndex(i)}
+                        className={`h-2 rounded-full transition-all duration-300 ${
+                            i === activeIndex ? 'w-8 bg-[#00CBD9]' : 'w-2 bg-white/20 hover:bg-white/40'
+                        }`}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+};
+
 // Helper Component for Cards
 const BenefitCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
     <div className="group opacity-0 bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-4 md:p-8 flex flex-col items-center gap-2 md:gap-4 hover:border-cyan-neon hover:shadow-[0_4px_16px_rgba(0,203,217,0.25)] hover:scale-105 transition-all duration-300 font-sans">
@@ -592,9 +763,12 @@ const BenefitCard = ({ icon, text }: { icon: React.ReactNode, text: string }) =>
 
 // Helper Component for Credential Pills
 const CredentialPill = ({ text }: { text: string }) => (
-    <div className="flex items-start p-5 md:px-7 md:py-5 bg-[#141414]/90 backdrop-blur-xl border border-[#00CBD9]/35 rounded-2xl shadow-[0_4px_20px_rgba(0,203,217,0.18)] hover:bg-[#00CBD9]/10 hover:border-[#00CBD9]/70 hover:shadow-[0_0_20px_rgba(0,203,217,0.35)] hover:-translate-y-1 hover:rotate-x-6 transition-all duration-300 group w-full">
-        <Check className="w-5 h-5 md:w-6 md:h-6 text-cyan-neon mr-3 md:mr-4 shrink-0 mt-0.5" />
-        <p className="text-white text-sm md:text-base font-medium leading-relaxed font-sans">
+    <div className="group relative flex items-start p-4 md:px-5 md:py-4 bg-[#05080A] border-l-2 border-[#00CBD9]/60 rounded-r-xl shadow-[0_2px_10px_rgba(0,0,0,0.3)] hover:bg-[#0A0E12] transition-all duration-300 w-full overflow-hidden">
+        {/* Subtle Cyber Hover Glow */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#00CBD9]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+        
+        <Check className="w-5 h-5 text-[#00CBD9] mr-3 shrink-0 mt-0.5 relative z-10" />
+        <p className="text-gray-200 text-sm font-medium leading-relaxed font-sans relative z-10 group-hover:text-white transition-colors">
             {text}
         </p>
     </div>
