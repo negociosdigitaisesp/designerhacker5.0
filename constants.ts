@@ -1,5 +1,3 @@
-
-
 export const ASSETS = {
   MENTOR_IMAGE: "https://i.postimg.cc/RFHDz4XY/mentor2.webp",
   MENTOR_PORTRAIT: "https://i.postimg.cc/tJbPqZKL/Anderson.png",
@@ -15,26 +13,35 @@ export const ASSETS = {
     "https://i.postimg.cc/SxcnsNrk/6.jpg",
     "https://i.postimg.cc/66SqfGjf/7.jpg",
     "https://i.postimg.cc/DSHzSDpW/8.jpg",
-    "https://i.postimg.cc/JzKGJY9X/9.jpg",
-    "https://i.postimg.cc/C5y1Y3qg/10.jpg",
-    "https://i.postimg.cc/vTLQycyD/11.jpg",
-    "https://i.postimg.cc/9QfW3mnb/12.jpg",
-    "https://i.postimg.cc/qR2rczNr/13.jpg",
-    "https://i.postimg.cc/yx7MFnqR/14.jpg"
+    "https://i.postimg.cc/JzKGJY9X/9.jpg"
   ],
   MODULE_IMAGES: [
-    "https://i.postimg.cc/RFHDz4XY/mentor2.webp",
-    "https://i.postimg.cc/tJbPqZKL/Anderson.png",
-    "https://i.postimg.cc/C5ddKrnc/headline.webp",
-    "https://i.postimg.cc/MKnvJGBV/pc.png",
-    "https://i.postimg.cc/RFHDz4XY/mentor2.webp",
-    "https://i.postimg.cc/tJbPqZKL/Anderson.png"
+    "/Módulo 1-compressed.jpg",
+    "/Módulo 2-compressed.jpg",
+    "/Módulo 3-compressed.jpg",
+    "/Módulo 4-compressed.jpg",
+    "/Módulo 5-compressed.jpg",
+    "/Módulo 6-compressed.jpg",
+    "/Módulo 7-compressed.jpg",
+    "/Módulo 8-compressed.jpg",
+    "/Módulo 9-compressed.jpg",
+    "/Módulo 10-compressed.jpg"
+  ],
+  MODULE_LIST: [
+    "Módulo 1 - Boas Vindas",
+    "Módulo 2 - Design Hack PRO",
+    "Módulo 3 - Workflow",
+    "Módulo 4 - Inteligência Artificial",
+    "Módulo 5 - Portfólio Imbatível",
+    "Módulo 6 - Corpo e Mente",
+    "Módulo 7 - Empreendedorismo",
+    "Módulo 8 - Espiritualidade",
+    "Módulo 9 - Bônus Acelerador",
+    "Módulo 10 - Próximos Passos"
   ]
 };
 
 export const COLORS = {
-  CYAN: '#00CBD9',
-  MAGENTA: '#FC2C54',
   YELLOW: '#FFD700',
   BG_DARK: '#0A0A0A'
 };
